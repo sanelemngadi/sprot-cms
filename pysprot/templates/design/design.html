@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design view</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <!-- <h2>Design view</h2> -->
+    <main>
+        <div class="container">
+            {% include 'design/left-pane.html' %}
+            <div class="convas_holder">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="{% static 'js/src/main.js' %}"></script>
+</body>
+</html>
