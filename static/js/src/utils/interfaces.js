@@ -1,24 +1,43 @@
-import { Rect } from "./rect.js";
-export const defaultRect = new Rect();
-export const defaultPoint = { x: -1, y: -1 };
-export const defaultSize = { w: -1, h: -1 };
-export var ActionControl;
-(function (ActionControl) {
-    ActionControl[ActionControl["None"] = 1] = "None";
-    ActionControl[ActionControl["Left"] = 2] = "Left";
-    ActionControl[ActionControl["Top"] = 3] = "Top";
-    ActionControl[ActionControl["Right"] = 4] = "Right";
-    ActionControl[ActionControl["Bottom"] = 5] = "Bottom";
-})(ActionControl || (ActionControl = {}));
-export var ElementState;
-(function (ElementState) {
-    ElementState[ElementState["Default"] = 1] = "Default";
-    ElementState[ElementState["Hovered"] = 2] = "Hovered";
-    ElementState[ElementState["Pressed"] = 3] = "Pressed";
-    ElementState[ElementState["Locked"] = 4] = "Locked";
-})(ElementState || (ElementState = {}));
-export var Orientation;
-(function (Orientation) {
-    Orientation[Orientation["Horizontal"] = 0] = "Horizontal";
-    Orientation[Orientation["Vertical"] = 1] = "Vertical";
-})(Orientation || (Orientation = {}));
+export var SprotState;
+(function (SprotState) {
+    SprotState[SprotState["DEFAULT"] = 1] = "DEFAULT";
+    SprotState[SprotState["HOVERED"] = 2] = "HOVERED";
+    SprotState[SprotState["PRESSED"] = 3] = "PRESSED";
+    SprotState[SprotState["RELEASED"] = 4] = "RELEASED";
+    SprotState[SprotState["FOCUSED"] = 5] = "FOCUSED";
+    SprotState[SprotState["DISABLED"] = 6] = "DISABLED";
+    SprotState[SprotState["ENABLED"] = 7] = "ENABLED";
+})(SprotState || (SprotState = {}));
+export var SprotElement;
+(function (SprotElement) {
+    SprotElement[SprotElement["DIV"] = 1] = "DIV";
+    SprotElement[SprotElement["H1"] = 2] = "H1";
+    SprotElement[SprotElement["H2"] = 3] = "H2";
+    SprotElement[SprotElement["H3"] = 4] = "H3";
+    SprotElement[SprotElement["H4"] = 5] = "H4";
+    SprotElement[SprotElement["H5"] = 6] = "H5";
+    SprotElement[SprotElement["H6"] = 7] = "H6";
+    SprotElement[SprotElement["BODY"] = 8] = "BODY";
+    SprotElement[SprotElement["SECTION"] = 9] = "SECTION";
+    SprotElement[SprotElement["ARTICLE"] = 10] = "ARTICLE";
+    SprotElement[SprotElement["ASIDE"] = 11] = "ASIDE";
+    SprotElement[SprotElement["UL"] = 12] = "UL";
+    SprotElement[SprotElement["LI"] = 13] = "LI";
+    SprotElement[SprotElement["IMG"] = 14] = "IMG";
+    SprotElement[SprotElement["SPAN"] = 15] = "SPAN";
+    SprotElement[SprotElement["A"] = 16] = "A";
+})(SprotElement || (SprotElement = {}));
+export var SprotOrientation;
+(function (SprotOrientation) {
+    SprotOrientation[SprotOrientation["VERTICAL"] = 1] = "VERTICAL";
+    SprotOrientation[SprotOrientation["HORIZONTAL"] = 2] = "HORIZONTAL";
+})(SprotOrientation || (SprotOrientation = {}));
+export var SprotDirection;
+(function (SprotDirection) {
+    SprotDirection[SprotDirection["Right"] = 1] = "Right";
+    SprotDirection[SprotDirection["Left"] = 2] = "Left";
+    SprotDirection[SprotDirection["Bottom"] = 3] = "Bottom";
+    SprotDirection[SprotDirection["Top"] = 4] = "Top";
+    SprotDirection[SprotDirection["HORIZONTAL"] = 5] = "HORIZONTAL";
+    SprotDirection[SprotDirection["VERTICAL"] = 6] = "VERTICAL";
+})(SprotDirection || (SprotDirection = {}));

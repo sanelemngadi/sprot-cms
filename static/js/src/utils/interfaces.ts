@@ -1,74 +1,67 @@
-import { Rect } from "./rect.js";
-
-export interface Point{
-    x: number;
-    y: number;
+export interface SPROTSize{
+    width: number,
+    height: number
 }
 
-export interface Size{
-    w: number,
-    h: number
+export interface SPROTPoint{
+    x: number,
+    y: number
 }
 
-export interface Transformations{
-    point: Point;
-    size: Size;
-    angle: number;
-    borderRadius: number;
+export enum SprotState{
+    DEFAULT = 1,
+    HOVERED,
+    PRESSED,
+    RELEASED,
+    FOCUSED,
+    DISABLED,
+    ENABLED
 }
 
-export interface DrawingSettings{
-    color: string;
-    bg: string;
-    stroke: string;
-    stroke_width: number;
+export enum SprotElement{
+    DIV = 1,
+    H1, H2, H3, H4, H5, H6,
+    BODY, SECTION, ARTICLE, ASIDE,
+    UL, LI,
+    IMG, SPAN, A
 }
 
-export type HTMLProps = Partial<Record<keyof HTMLElement, string | number | boolean>>;
-export interface CSSProp{
-    [key: string]: string | number;
+export type SprotBlockElementName = "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" |
+          "p" | "ul" | "li" | "section" | "body" | "article" |
+          "aside"
+
+
+export type SprotInlineElementName = "img" | "a" | "span";
+
+export enum SprotOrientation{
+    VERTICAL = 1,
+    HORIZONTAL
 }
 
-export interface HTMLDatasetProp<T = number>{
-    [key: string]: string | number | T;
+export enum SprotDirection{
+    Right = 1,
+    Left,
+    Bottom,
+    Top,
+    HORIZONTAL,
+    VERTICAL
 }
 
-export interface BreakPoints{
-    xs?: CSSProp;
-    sm?: CSSProp;
-    md?: CSSProp;
-    lg?: CSSProp;
-    xl?: CSSProp;
-    xxl?: CSSProp;
-}
-
-export interface Edge{
+export interface SprotSides{
     top: string | number;
+    right: string | number;
     left: string | number;
     bottom: string | number;
-    right: string | number;
 }
 
-export const defaultRect:Rect = new Rect();
-export const defaultPoint: Point = {x: -1, y: -1};
-export const defaultSize: Size = {w: -1, h: -1};
+export type SprotEventType = "mousemove" | "mousedown" | "mouseup" | 
+                         "resize" | "mouseenter" | "mouseleave" | "mouseover"; 
 
-export enum ActionControl{
-    None = 1,
-    Left,
-    Top,
-    Right,
-    Bottom
-}
-
-export enum ElementState{
-    Default = 1,
-    Hovered,
-    Pressed,
-    Locked
-}
-
-export enum Orientation{
-    Horizontal,
-    Vertical
+export interface ISprotEventObject<T>{
+    type: T;
+    skipped: boolean;
+    Skip(): void;
+    SetEventType(type: T): void;
+    getEventType(): T;
+    // veto(): void;
 }
