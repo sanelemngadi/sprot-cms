@@ -1,12 +1,9 @@
 import { SprotGraphicsContext } from "../context/graphics.js";
-import { SprotBrush, SprotPen } from "../context/tools.js";
 import { SprotHtmlBaseElement } from "../elements/base.js";
-import { SprotSectionElement } from "../elements/blockelements.js";
-import { SprotMouseEvent, SprotSizeEvent } from "../events/event.js";
-import SPROT from "../utils/defaults.js";
+import { SprotEventObjectFactory } from "../events/factory.js";
 import { SprotState } from "../utils/interfaces.js";
 import { SprotEventStateElement } from "../utils/states/setstate.js";
-import { SPROTPoint, SPROTRect, SPROTSize, SprotCornerRadius } from "../utils/utils.js";
+import { SPROTPoint, SPROTRect, SPROTSize } from "../utils/utils.js";
 
 class DrawElement{
     constructor(
@@ -26,30 +23,45 @@ class DrawElement{
 }
 
 class SprotResizeElement{
+    private eventFactory: SprotEventObjectFactory;
     constructor(){
-        // this.elements = elements;
+        this.eventFactory = new SprotEventObjectFactory();
     }
 
     resize = (size: SPROTSize, elements: SprotHtmlBaseElement[]) => {
+
+        // things that needs to happen here, if we size the parent we need to notify
+        // all children, and if we size the children we alse need to notify the parent
+        // by doing so we will be able to make the elements that size well
+
+        // so we only need to send the sizing event and then the element will tell all its children and parents
         for(let element of elements){
             if(!element.isShown()){
                 continue;
             }
             // recursively resize child elements
-            if(Array.isArray(element.getChildren())){
-                const children = element.getChildren() as SprotHtmlBaseElement[];
+            const children = element.getChildren() as SprotHtmlBaseElement[];
+            if(children.length > 0){
                 const sizeElements = new SprotResizeElement();
                 sizeElements.resize(size, children);
             }
 
-            this.sizeElement(size, element);
+            // this.sizeElement(size, element);
+            this.eventFactory.dispatch({
+                type: "resize", payload: {
+                    activeElement: element,
+                    size
+                }
+            })
         }
     }
 
-    sizeElement = (parentSize: SPROTSize, childElement: SprotHtmlBaseElement) =>{
-        childElement.onSizeEvent(new SprotSizeEvent(parentSize));
-    }
+    // sizeElement = (parentSize: SPROTSize, childElement: SprotHtmlBaseElement) =>{
+    //     childElement.onSizeEvent(new SprotSizeEvent(parentSize));
+    // }
 }
+
+// in canvas we need to add body tag, then body tag will handle all the elements
 
 export class SprotDesignBoard{
     private ctx: CanvasRenderingContext2D | null;
@@ -101,7 +113,7 @@ export class SprotDesignBoard{
     };
 
     onSize = (/*event: UIEvent*/): void => {
-        console.log("resize, ", window.innerWidth);
+        // console.log("resize, ", window.innerWidth);
         this.sizing.resize(new SPROTSize(this.canvas.width - 10*2, this.canvas.height), 
             this.elements);
 
@@ -162,6 +174,7 @@ export class SprotDesignBoard{
         return new SPROTPoint(this.canvas.offsetLeft, this.canvas.offsetTop);
     }
 
+    // must only be able to add only the body element, the headers will be add by plugins
     addElement = (element: SprotHtmlBaseElement)=> {
         this.elements.push(element);
     }

@@ -4,7 +4,7 @@ import { SprotSectionElement } from "./elements/blockelements.js";
 import { SprotContainerElement } from "./elements/container.js";
 import { SprotBoxSizer } from "./elements/sizers/boxsizer.js";
 import { SprotSizerFlags } from "./elements/sizers/sizeritem.js";
-import { SprotFocusEvent, SprotMouseEvents } from "./events/eventobject.js";
+import { SprotFocusEvent, SprotMouseEvents, SprotSizeEvent } from "./events/eventobject.js";
 import { ISprotEventObject, SprotEventType, SprotOrientation } from "./utils/interfaces.js";
 import { SPROTPoint, SPROTSize } from "./utils/utils.js";
 
@@ -76,6 +76,11 @@ if(canvas){
             // evt.Skip();
         });
 
+        section.addEventListener("resize", (evt: SprotSizeEvent) => {
+            console.log("sizing the object: ", evt.getSize());
+            
+        })
+
         const sectionChild1 = new SprotSectionElement(section, cv, new SPROTPoint(0, 0),
         new SPROTSize(-1, 50));
         sectionChild1.setHoverPen(new SprotPen("blue"));
@@ -87,10 +92,10 @@ if(canvas){
         sectionChild2.setHoverPen(new SprotPen("blue"));
         sectionChild2.setHoverBrush(new SprotBrush("black"));
         sectionChild2.setPen(new SprotPen("white"));
-        // sectionChild2.Bind(SprotEventType.MOUSE_MOVE, (evt: ISprotEventObject) => {
-        //     console.log("mouse: subclass motion");
-            
-        // }, sectionChild2);
+
+        sectionChild2.addEventListener("mousemove", (evt: SprotMouseEvents) => {
+            console.log("mouse: subclass motion");
+        });
         // sectionChild2.setPen(new SprotPen("red"));
         
         const sectionChild3 = new SprotSectionElement(section, cv, new SPROTPoint(0 , 20 + 50));
@@ -116,122 +121,9 @@ if(canvas){
         sizer.addElement(sectionChild3, new SprotSizerFlags(1));
         sizer.addGap(20);
         sizer.addElement(sectionChild4, new SprotSizerFlags(1));
-        section.setSizer(sizer);
-
-
-        // const mainSizer = new SprotBoxSizer(SprotOrientation.VERTICAL);
-
-        // const div1 = new SprotContainerElement(body, cv, new SPROTPoint(10, 10));
-        // div1.setSize(new SPROTSize(-1, 10));
-        // div1.setHoverPen(new SprotPen("red"));
-
-        // const div2 = new SprotContainerElement(body, cv, new SPROTPoint(10, 10));
-        // div2.setSize(new SPROTSize(-1, 10));
-        // div2.setHoverPen(new SprotPen("red"));
-
-        // const div3 = new SprotContainerElement(body, cv, new SPROTPoint(10, 10));
-        // div3.setSize(new SPROTSize(-1, 10));
-        // div3.setHoverPen(new SprotPen("red"));
-
-        // mainSizer.addElement(section);
-        // mainSizer.addElement(div1);
-        // mainSizer.addElement(div2);
-        // mainSizer.addElement(div3);
-
-        // body.setSizer(mainSizer);
-
-        // console.log("parent pos: ", section.getPosition().getX(), 
-        //     " child pos: ", sectionChild1.getPosition().getX());    
+        section.setSizer(sizer);    
 
         cv.addElement(section);
         cv.Refresh();
-        // console.log("name: ", section.getName(), ", type: ", section.getType(), 
-        // " normal pen: ", section.getPen().getColor(), " hover: ", section.getHoverPen().getColor());
     }  
-}
-
-
-const tree = {
-    name: "Thembelihle",
-    children: [
-        {
-            name: "Thembisile",
-            children: [
-                {
-                    name: "Slindile",
-                    children: [
-                        {
-                            name: "sli kid 1",
-                            children: []
-                        },
-                    ]
-                },
-                {
-                    name: "Sanele",
-                    children: [
-                        {
-                            name: "Sisanda",
-                            children: []
-                        },
-                        {
-                            name: "Ntuso",
-                            children: []
-                        },
-                    ]
-                },
-            ]
-        },
-        {
-            name: "Nunu",
-            children: [
-                {
-                    name: "nunu kid 1",
-                    children: []
-                },
-                {
-                    name: "nunu kid 2",
-                    children: []
-                },
-                {
-                    name: "nunu kid 3",
-                    children: []
-                },
-                {
-                    name: "nunu kid 4",
-                    children: []
-                },
-                {
-                    name: "nunu kid 5",
-                    children: []
-                },
-            ]
-        },
-        {
-            name: "Thulani",
-            children: [ ]
-        },
-    ]
-}
-
-
-interface VP{
-    [name:string]: string
-}
-
-const findMember = (tree: unknown, name: string): string => {
-    for(let i = 0; i < Object(tree).keys().lenght; i++){
-        const key: string = Object(tree).keys()[i];
-
-        if(name == key){
-            return (tree as VP)[key];
-        }
-
-
-        if(typeof (tree as VP)[key] === "object"){
-            const vp = ((tree as VP)[key]);
-            findMember(vp, name)
-
-        }
-    }
-    return `we don't have family name ${name}`;
 }

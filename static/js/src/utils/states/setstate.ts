@@ -71,7 +71,9 @@ export class SprotEventStateElement{
             }
 
             if(this.state === SprotState.HOVERED){
-                this.eventFactory.dispatch("mousemove", activeElement, null, point);
+                this.eventFactory.dispatch({type:"mousemove", payload: {
+                    activeElement, point
+                }});
             }
         }
 
@@ -80,13 +82,17 @@ export class SprotEventStateElement{
                 // we are current out of all element but previously we were on top of element
                 // meaning we just left element fire mouseleave event
                 if(this.state === SprotState.HOVERED){
-                    this.eventFactory.dispatch("mouseleave", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"mousemove", payload: {
+                        formerElement: formerActiveElement ,point
+                    }});
                 }     
                 else if(this.state === SprotState.PRESSED){
                     // fire kill focus to this element
                     // if the user clicked now of the elements then killfocus from the prev
                     // element that was clicked
-                    this.eventFactory.dispatch("killfocus", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"killfocus", payload: {
+                        formerElement: formerActiveElement, point
+                    }});
                 }
                 else if(this.state === SprotState.RELEASED){
                 }
@@ -97,18 +103,26 @@ export class SprotEventStateElement{
                 // then that means wejust ented element
                 if(this.state === SprotState.HOVERED
                 ){ 
-                    this.eventFactory.dispatch("mouseenter", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"mouseenter", payload: {
+                        activeElement, point
+                    }});
                 }
                 else if(this.state === SprotState.PRESSED){
                     // fire left down to this element
-                    this.eventFactory.dispatch("mousedown", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"mousedown", payload: {
+                        activeElement, point
+                    }});
                 }
                 else if(this.state === SprotState.RELEASED){
                     // fire set focus to this element
-                    this.eventFactory.dispatch("mouseup", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"mouseup", payload: {
+                        activeElement, point
+                    }});
 
                     // on mouse left up focus the current element
-                    this.eventFactory.dispatch("setfocus", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"setfocus", payload: {
+                        activeElement
+                    }});
                 }
             }
 
@@ -120,12 +134,20 @@ export class SprotEventStateElement{
                 } 
                 else if(this.state === SprotState.PRESSED){
                     // fire left down to this element
-                    this.eventFactory.dispatch("mousedown", activeElement, formerActiveElement, point);
-                    this.eventFactory.dispatch("killfocus", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"mousedown", payload: {
+                        activeElement, formerElement: formerActiveElement,  point
+                    }});
+                    this.eventFactory.dispatch({type:"killfocus", payload: {
+                        activeElement, formerElement: formerActiveElement
+                    }});
                 }
                 else if(this.state === SprotState.RELEASED){
-                    this.eventFactory.dispatch("mouseup", activeElement, formerActiveElement, point);
-                    this.eventFactory.dispatch("setfocus", activeElement, formerActiveElement, point);
+                    this.eventFactory.dispatch({type:"mouseup", payload: {
+                        activeElement, formerElement: formerActiveElement,  point
+                    }});
+                    this.eventFactory.dispatch({type:"setfocus", payload: {
+                        activeElement, formerElement: formerActiveElement
+                    }});
                 }           
             }
         }

@@ -1,8 +1,6 @@
 import { SprotDesignBoard } from "../canvas/canvas.js";
-import { SprotHtmlBaseElement } from "../elements/base.js";
 import SPROT from "../utils/defaults.js";
-import { ISprotEventObject, SprotState } from "../utils/interfaces.js";
-import { SPROTPoint } from "../utils/utils";
+import { SPROTPoint, SPROTSize } from "../utils/utils";
 
 export abstract class SprotEvent<T>{
     type: T;
@@ -48,6 +46,18 @@ export class SprotBackgroundEvent extends SprotEvent<SprotBackgroundEventType>{
 
     setCanvas(canvas: SprotDesignBoard){this.canvas = canvas;}
     getCanvas(){return this.canvas;}
+}
+
+export type SprotSizeEventType = "resize";
+export class SprotSizeEvent extends SprotEvent<SprotSizeEventType>{
+    private size: SPROTSize;
+    constructor(type: SprotSizeEventType){
+        super(type);
+        this.size = SPROT.NULL_SIZE;
+    }
+
+    setSize(size: SPROTSize):void{this.size = size;}
+    getSize():SPROTSize {return this.size;}
 }
 
 
